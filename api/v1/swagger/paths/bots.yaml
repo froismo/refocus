@@ -30,7 +30,7 @@ Bots:
         schema:
           type: array
           items:
-            $ref: "./definitions/botResponse.yaml#/BotResponse"
+            $ref: "../definitions/botResponse.yaml#/BotResponse"
       400:
         $ref: "#/responses/400"
       401:
@@ -120,7 +120,7 @@ Bots:
         description: >-
           Created bot
         schema:
-          $ref: "./definitions/botResponse.yaml#/BotResponse"
+          $ref: "../definitions/botResponse.yaml#/BotResponse"
       400:
         $ref: "#/responses/400"
       401:
@@ -154,7 +154,7 @@ BotsByID:
         description: >-
           Success, Deleted Bot
         schema:
-          $ref: "./definitions/botResponse.yaml#/BotResponse"
+          $ref: "../definitions/botResponse.yaml#/BotResponse"
       400:
         $ref: "#/responses/400"
       401:
@@ -199,7 +199,7 @@ BotsByID:
         description: >-
           Success, returns specified bot
         schema:
-          $ref: "./definitions/botResponse.yaml#/BotResponse"
+          $ref: "../definitions/botResponse.yaml#/BotResponse"
       400:
         $ref: "#/responses/400"
       401:
@@ -271,7 +271,7 @@ BotsByID:
         description: >-
           Updated field
         schema:
-          $ref: "./definitions/botResponse.yaml#/BotResponse"
+          $ref: "../definitions/botResponse.yaml#/BotResponse"
       400:
         $ref: "#/responses/400"
       401:
@@ -363,7 +363,7 @@ BotsByID:
         description: >-
           Created bot
         schema:
-          $ref: "./definitions/botResponse.yaml#/BotResponse"
+          $ref: "../definitions/botResponse.yaml#/BotResponse"
       400:
         $ref: "#/responses/400"
       401:

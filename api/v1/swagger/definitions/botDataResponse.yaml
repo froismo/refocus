@@ -1,0 +1,19 @@
+BotDataResponse:
+  type: object
+  description: A response for information about a room
+  properties:
+    id:
+      type: string
+      description: UUID of the specified bot data
+    name:
+      type: string
+      description: Name of the bot data
+    value:
+      type: string
+      description: Current value of the bot data
+    roomId:
+      type: integer
+      description: The room number of the room of the bot data
+    botId:
+      type: string
+      description: UUID of the specified bot in that room

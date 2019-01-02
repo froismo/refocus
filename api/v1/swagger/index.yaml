@@ -1486,7 +1486,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/BotActionResponse"
+              $ref: "./definitions/botActionResponse.yaml#/BotActionResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1546,7 +1546,7 @@ paths:
           description: >-
             Created botAction
           schema:
-            $ref: "#/definitions/BotActionResponse"
+            $ref: "./definitions/botActionResponse.yaml#/BotActionResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1580,7 +1580,7 @@ paths:
           description: >-
             Success, Deleted BotAction
           schema:
-            $ref: "#/definitions/BotActionResponse"
+            $ref: "./definitions/botActionResponse.yaml#/BotActionResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1619,7 +1619,7 @@ paths:
           description: >-
             Success, returns specified botAction
           schema:
-            $ref: "#/definitions/BotActionResponse"
+            $ref: "./definitions/botActionResponse.yaml#/BotActionResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1682,7 +1682,7 @@ paths:
           description: >-
             Updated field
           schema:
-            $ref: "#/definitions/BotActionResponse"
+            $ref: "./definitions/botActionResponse.yaml#/BotActionResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1926,7 +1926,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/BotDataResponse"
+              $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1980,7 +1980,7 @@ paths:
           description: >-
             Created botData
           schema:
-            $ref: "#/definitions/BotDataResponse"
+            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -2233,12 +2233,12 @@ paths:
           description: >-
             Bot Data Created
           schema:
-            $ref: "#/definitions/BotDataResponse"
+            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
         200:
           description: >-
             Bot Data Updated
           schema:
-            $ref: "#/definitions/BotDataResponse"
+            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -2276,7 +2276,7 @@ paths:
           description: >-
             Success, returns specified botData
           schema:
-            $ref: "#/definitions/BotDataResponse"
+            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -2331,7 +2331,7 @@ paths:
           description: >-
             Updated field
           schema:
-            $ref: "#/definitions/BotDataResponse"
+            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -2362,7 +2362,7 @@ paths:
           description: >-
             Success, Deleted BotData
           schema:
-            $ref: "#/definitions/BotDataResponse"
+            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -3204,7 +3204,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/EventResponse"
+              $ref: "./definitions/eventResponse.yaml#/EventResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -3260,7 +3260,7 @@ paths:
           description: >-
             Created event
           schema:
-            $ref: "#/definitions/EventResponse"
+            $ref: "./definitions/eventResponse.yaml#/EventResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -3298,7 +3298,7 @@ paths:
           description: >-
             Success, returns specified event
           schema:
-            $ref: "#/definitions/EventResponse"
+            $ref: "./definitions/eventResponse.yaml#/EventResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -7130,7 +7130,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/BotDataResponse"
+              $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -7175,7 +7175,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/BotDataResponse"
+              $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -12312,66 +12312,6 @@ definitions:
         description: >
           Timestamp at which the the write permission was modified
 
-  EventResponse:
-    type: object
-    description: A response for information about a event
-    properties:
-      id:
-        type: string
-        description: The UUID of the specified event
-      log:
-        type: string
-        description: Human readable log line describing the event and its context it stores
-      context:
-        type: object
-        description: A object, typically JSON, that contains the information to describe an event
-      roomId:
-        type: integer
-        description: The room ID in which the event deals with
-      botId:
-        type: string
-        description: The bot ID in which the event deals with
-      botDataId:
-        type: string
-        description: The bot data ID in which the event deals with
-      botActionId:
-        type: string
-        description: The bot action ID in which the event deals with
-      userId:
-        type: string
-        description: The user ID in which the event deals with
-
-  BotActionResponse:
-    type: object
-    description: A response for information about bot actions
-    properties:
-      id:
-        type: string
-        description: The UUID of the specified bot action
-      name:
-        type: string
-        description: The name of the bot action requested
-      isPending:
-        type: boolean
-        description: If the action is still pending completion
-      parameters:
-        type: array
-        description: The values required to run a bot action
-        items:
-          type: object
-      response:
-        type: object
-        description: The output of an bot action
-      roomId:
-        type: integer
-        description: The room ID in which the bot action deals with
-      botId:
-        type: string
-        description: The bot ID in which the bot action deals with
-      userId:
-        type: string
-        description: The user ID in which the bot action deals with
-
   CollectorResponse:
     type: "object"
     required:
@@ -12798,26 +12738,6 @@ definitions:
         readOnly: true
         description: >
           Id of the User who created this generatorTemplate.
-
-  BotDataResponse:
-    type: object
-    description: A response for information about a room
-    properties:
-      id:
-        type: string
-        description: UUID of the specified bot data
-      name:
-        type: string
-        description: Name of the bot data
-      value:
-        type: string
-        description: Current value of the bot data
-      roomId:
-        type: integer
-        description: The room number of the room of the bot data
-      botId:
-        type: string
-        description: UUID of the specified bot in that room
 
   BulkSubjectDeleteResponse:
     type: object

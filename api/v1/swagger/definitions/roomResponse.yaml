@@ -1,16 +1,16 @@
-  RoomResponse:
-    type: object
-    description: A response for information about a room
-    properties:
-      id:
-        type: integer
-        description: The room number of the specified room
-      name:
-        type: string
-        description: The unique readable name for the room
-      active:
-        type: boolean
-        description: Flag for whether the room is still active or closed
-      type:
-        type: string
-        description: The roomType being used in the specified room
+RoomResponse:
+  type: object
+  description: A response for information about a room
+  properties:
+    id:
+      type: integer
+      description: The room number of the specified room
+    name:
+      type: string
+      description: The unique readable name for the room
+    active:
+      type: boolean
+      description: Flag for whether the room is still active or closed
+    type:
+      type: string
+      description: The roomType being used in the specified room
