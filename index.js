@@ -32,7 +32,8 @@ const ONE = 1;
  * @param {Number} clusterProcessId - process id if called from throng,
  *  otherwise 0
  */
-function start(clusterProcessId = 0) { // eslint-disable-line max-statements
+ async function start(clusterProcessId = 0) { // eslint-disable-line max-statements
+   console.log("STARTING")
   console.log(`Started node process ${clusterProcessId}`);
 
   /*
@@ -186,9 +187,21 @@ function start(clusterProcessId = 0) { // eslint-disable-line max-statements
     },
   };
 
-  JsonRefs.resolveRefsAt('./api/v1/swagger/index.yaml', swaggerRefOptions)
+  // Initialize the Swagger middleware
+const swaggerFile = fs // eslint-disable-line no-sync
+  .readFileSync(conf.api.swagger.doc, ENCODING);
+const swaggerDoc = yaml.safeLoad(swaggerFile);
+console.log("STARTING SWAGGER");
+// console.log("qqqqqqqqq")
+// const aaa = await JsonRefs.resolveRefs(swaggerDoc, swaggerRefOptions);
+// console.log("zzzzzzzz")
+//
+
+
+  JsonRefs.resolveRefs(swaggerDoc, swaggerRefOptions)
   .then(({ resolved }) => {
     const swaggerDoc = resolved;
+    console.log("FINISHED SWAGGER")
 
     if (featureToggles.isFeatureEnabled('hideRoutes')) {
       for (let _path in swaggerDoc.paths) {
@@ -388,5 +401,6 @@ if (isProd) {
     workers: WORKERS,
   });
 } else {
-  start();
+  console.log("JUST BEFORE START")
+  start().then(() => console.log("done"));
 }

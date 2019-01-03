@@ -14,7 +14,9 @@ const supertest = require('supertest');
 const featureToggles = require('feature-toggles');
 const sampleStore = require('../../../../cache/sampleStore');
 const rcli = require('../../../../cache/redisCache').client.sampleStore;
+console.log("JUST BEFORE IMPORT")
 const api = supertest(require('../../../../index').app);
+console.log("JUST AFTER IMPORT")
 const constants = require('../../../../api/v1/constants');
 const u = require('./utils');
 const tu = require('../../../testUtils');
@@ -26,6 +28,9 @@ const path = '/v1/admin/sampleStore/rebuild';
 const expect = require('chai').expect;
 const initialFeatureState = featureToggles
   .isFeatureEnabled(sampleStore.constants.featureName);
+
+  console.log("LLLLAAAA")
+  console.log(api);
 
 describe('tests/api/v1/admin/rebuildSampleStore.js >', () => {
   describe(`POST ${path} (feature is off) >`, () => {

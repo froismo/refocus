@@ -1486,7 +1486,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "./definitions/botActionResponse.yaml#/BotActionResponse"
+              $ref: "api/v1/swagger/definitions/botActionResponse.yaml#/BotActionResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1546,7 +1546,7 @@ paths:
           description: >-
             Created botAction
           schema:
-            $ref: "./definitions/botActionResponse.yaml#/BotActionResponse"
+            $ref: "api/v1/swagger/definitions/botActionResponse.yaml#/BotActionResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1580,7 +1580,7 @@ paths:
           description: >-
             Success, Deleted BotAction
           schema:
-            $ref: "./definitions/botActionResponse.yaml#/BotActionResponse"
+            $ref: "api/v1/swagger/definitions/botActionResponse.yaml#/BotActionResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1619,7 +1619,7 @@ paths:
           description: >-
             Success, returns specified botAction
           schema:
-            $ref: "./definitions/botActionResponse.yaml#/BotActionResponse"
+            $ref: "api/v1/swagger/definitions/botActionResponse.yaml#/BotActionResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1682,7 +1682,7 @@ paths:
           description: >-
             Updated field
           schema:
-            $ref: "./definitions/botActionResponse.yaml#/BotActionResponse"
+            $ref: "api/v1/swagger/definitions/botActionResponse.yaml#/BotActionResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1926,7 +1926,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
+              $ref: "api/v1/swagger/definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -1980,7 +1980,7 @@ paths:
           description: >-
             Created botData
           schema:
-            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
+            $ref: "api/v1/swagger/definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -2233,12 +2233,12 @@ paths:
           description: >-
             Bot Data Created
           schema:
-            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
+            $ref: "api/v1/swagger/definitions/botDataResponse.yaml#/BotDataResponse"
         200:
           description: >-
             Bot Data Updated
           schema:
-            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
+            $ref: "api/v1/swagger/definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -2276,7 +2276,7 @@ paths:
           description: >-
             Success, returns specified botData
           schema:
-            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
+            $ref: "api/v1/swagger/definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -2331,7 +2331,7 @@ paths:
           description: >-
             Updated field
           schema:
-            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
+            $ref: "api/v1/swagger/definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -2362,7 +2362,7 @@ paths:
           description: >-
             Success, Deleted BotData
           schema:
-            $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
+            $ref: "api/v1/swagger/definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -2376,24 +2376,24 @@ paths:
 
   # ---------------------------------------------------------------------------
   /bots:
-    $ref: "./paths/bots.yaml#/Bots"
+    $ref: "api/v1/swagger/paths/bots.yaml#/Bots"
 
   # ---------------------------------------------------------------------------
   /bots/{key}:
-    $ref: "./paths/bots.yaml#/BotsByID"
+    $ref: "api/v1/swagger/paths/bots.yaml#/BotsByID"
 
   # ---------------------------------------------------------------------------
 
   /bots/{key}/heartbeat:
-    $ref: "./paths/bots.yaml#/BotHeartbeat"
+    $ref: "api/v1/swagger/paths/bots.yaml#/BotHeartbeat"
 
   # ---------------------------------------------------------------------------
   /bots/{key}/writers:
-    $ref: "./paths/bots.yaml#/BotWriters"
+    $ref: "api/v1/swagger/paths/bots.yaml#/BotWriters"
 
   # ---------------------------------------------------------------------------
   /bots/{key}/writers/{userNameOrId}:
-    $ref: "./paths/bots.yaml#/BotWritersByID"
+    $ref: "api/v1/swagger/paths/bots.yaml#/BotWritersByID"
 
   # ---------------------------------------------------------------------------
   /collectors:
@@ -3204,7 +3204,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "./definitions/eventResponse.yaml#/EventResponse"
+              $ref: "api/v1/swagger/definitions/eventResponse.yaml#/EventResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -3260,7 +3260,7 @@ paths:
           description: >-
             Created event
           schema:
-            $ref: "./definitions/eventResponse.yaml#/EventResponse"
+            $ref: "api/v1/swagger/definitions/eventResponse.yaml#/EventResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -3298,7 +3298,7 @@ paths:
           description: >-
             Success, returns specified event
           schema:
-            $ref: "./definitions/eventResponse.yaml#/EventResponse"
+            $ref: "api/v1/swagger/definitions/eventResponse.yaml#/EventResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -6727,7 +6727,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "./definitions/roomResponse.yaml#/RoomResponse"
+              $ref: "api/v1/swagger/definitions/roomResponse.yaml#/RoomResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -6773,7 +6773,7 @@ paths:
           description: >-
             Created room
           schema:
-            $ref: "./definitions/roomResponse.yaml#/RoomResponse"
+            $ref: "api/v1/swagger/definitions/roomResponse.yaml#/RoomResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -6807,7 +6807,7 @@ paths:
           description: >-
             Success, Deleted RoomType
           schema:
-            $ref: "./definitions/roomResponse.yaml#/RoomResponse"
+            $ref: "api/v1/swagger/definitions/roomResponse.yaml#/RoomResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -6846,7 +6846,7 @@ paths:
           description: >-
             Success, returns specified room
           schema:
-            $ref: "./definitions/roomResponse.yaml#/RoomResponse"
+            $ref: "api/v1/swagger/definitions/roomResponse.yaml#/RoomResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -6896,7 +6896,7 @@ paths:
           description: >-
             Updated field
           schema:
-            $ref: "./definitions/roomResponse.yaml#/RoomResponse"
+            $ref: "api/v1/swagger/definitions/roomResponse.yaml#/RoomResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -7130,7 +7130,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
+              $ref: "api/v1/swagger/definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -7175,7 +7175,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "./definitions/botDataResponse.yaml#/BotDataResponse"
+              $ref: "api/v1/swagger/definitions/botDataResponse.yaml#/BotDataResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -7223,7 +7223,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "./definitions/roomTypeResponse.yaml#/RoomTypeResponse"
+              $ref: "api/v1/swagger/definitions/roomTypeResponse.yaml#/RoomTypeResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -7277,7 +7277,7 @@ paths:
           description: >-
             Created roomType
           schema:
-            $ref: "./definitions/roomTypeResponse.yaml#/RoomTypeResponse"
+            $ref: "api/v1/swagger/definitions/roomTypeResponse.yaml#/RoomTypeResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -7311,7 +7311,7 @@ paths:
           description: >-
             Success, Deleted RoomType
           schema:
-            $ref: "./definitions/roomTypeResponse.yaml#/RoomTypeResponse"
+            $ref: "api/v1/swagger/definitions/roomTypeResponse.yaml#/RoomTypeResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -7350,7 +7350,7 @@ paths:
           description: >-
             Success, returns specified roomType
           schema:
-            $ref: "./definitions/roomTypeResponse.yaml#/RoomTypeResponse"
+            $ref: "api/v1/swagger/definitions/roomTypeResponse.yaml#/RoomTypeResponse"
         400:
           $ref: "#/responses/400"
         401:
@@ -7409,7 +7409,7 @@ paths:
           description: >-
             Updated field
           schema:
-            $ref: "./definitions/roomTypeResponse.yaml#/RoomTypeResponse"
+            $ref: "api/v1/swagger/definitions/roomTypeResponse.yaml#/RoomTypeResponse"
         400:
           $ref: "#/responses/400"
         401:
