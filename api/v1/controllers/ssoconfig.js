@@ -143,9 +143,9 @@ module.exports = {
    */
   patchSSOConfig(req, res, next) {
     const resultObj = { reqStartTime: req.timestamp };
-    if (!req.headers.IsAdmin) {
-      return u.forbidden(next);
-    }
+    // if (!req.headers.IsAdmin) {
+    //   return u.forbidden(next);
+    // }
 
     return helper.model.findOne()
     .then((o) => {
