@@ -87,14 +87,14 @@ module.exports = {
    * @param {Function} next - The next middleware function in the stack
    */
   patchUser(req, res, next) {
-    if (req.headers.IsAdmin) {
+    // if (req.headers.IsAdmin) {
+    //   doPatch(req, res, next, helper);
+    // } else if (req.body.profileId && !req.headers.IsAdmin) {
+    //   // Only an admin may modify a user's profile
+    //   u.forbidden(next);
+    // } else {
       doPatch(req, res, next, helper);
-    } else if (req.body.profileId && !req.headers.IsAdmin) {
-      // Only an admin may modify a user's profile
-      u.forbidden(next);
-    } else {
-      doPatch(req, res, next, helper);
-    }
+    // }
   },
 
   /**
