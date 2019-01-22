@@ -355,16 +355,17 @@ module.exports = function subject(seq, dataTypes) {
        */
       beforeDestroy(inst /* , opts */) {
         return new seq.Promise((resolve, reject) =>
-          inst.getChildren()
-          .then((kids) => {
-            if (kids && kids.length > 0) {
-              const err = new dbErrors.SubjectDeleteConstraintError();
-              err.subject = inst.get();
-              throw err;
-            } else {
-              return common.setIsDeleted(seq.Promise, inst);
-            }
-          })
+          // inst.getChildren()
+          // .then((kids) => {
+          //   if (kids && kids.length > 0) {
+          //     const err = new dbErrors.SubjectDeleteConstraintError();
+          //     err.subject = inst.get();
+          //     throw err;
+          //   } else {
+          //     return common.setIsDeleted(seq.Promise, inst);
+          //   }
+          // })
+          common.setIsDeleted(seq.Promise, inst)
           .then(() => resolve())
           .catch((err) => reject(err))
         );
