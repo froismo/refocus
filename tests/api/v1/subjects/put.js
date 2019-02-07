@@ -637,6 +637,32 @@ describe('tests/api/v1/subjects/put.js >', () => {
         done();
       });
     });
+
+    it.skip('update, tags not provided, should set to empty array', (done) => {
+      const toPut = {
+        name: `${tu.namePrefix}newName`,
+        timeout: '220s',
+      };
+      api.put(`${path}/${subjectId}`)
+        .set('Authorization', token)
+        .send(toPut)
+        .expect(constants.httpStatus.OK)
+        .expect((res) => {
+          expect(res.body.tags).to.have.length(ZERO);
+        })
+        .end((err /* , res */) => {
+          if (err) {
+            return done(err);
+          }
+
+          Subject.findOne({ where: { id: subjectId } })
+            .then((subj) => {
+              // console.log(subj);
+              expect(subj.tags).to.have.length(ZERO);
+            });
+          done();
+        });
+    });
   });
 
   describe('api: PUT subjects, validate helpEmail/helpUrl required >', () => {
