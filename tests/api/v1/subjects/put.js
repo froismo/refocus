@@ -638,7 +638,7 @@ describe('tests/api/v1/subjects/put.js >', () => {
       });
     });
 
-    it.skip('update, tags not provided, should set to empty array', (done) => {
+    it('tags and related links not provided, should set to empty array', (done) => {
       const toPut = {
         name: `${tu.namePrefix}newName`,
         timeout: '220s',
@@ -657,8 +657,8 @@ describe('tests/api/v1/subjects/put.js >', () => {
 
           Subject.findOne({ where: { id: subjectId } })
             .then((subj) => {
-              // console.log(subj);
-              expect(subj.tags).to.have.length(ZERO);
+              expect(subj.tags).to.eql([]);
+              expect(subj.relatedLinks).to.eql([]);
             });
           done();
         });

@@ -180,6 +180,21 @@ describe(`tests/api/v1/samples/put.js, PUT ${path} >`, () => {
     });
   });
 
+  it('relatedLinks set to empty array if not provided', (done) => {
+    api.put(`${path}/${sampleName1}`)
+      .set('Authorization', token)
+      .send({ subjectId2, aspectId2, value: '2' })
+      .expect(constants.httpStatus.OK)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
+
+        expect(res.body.relatedLinks).to.eql([]);
+        done();
+      });
+  });
+
   describe('subject isPublished false >', () => {
     beforeEach((done) => {
       tu.db.Subject.findById(subjectId1)
