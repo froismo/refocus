@@ -12,7 +12,7 @@
 'use strict'; // eslint-disable-line strict
 const emitter = require('./socketIOEmitter');
 const rcache = require('../cache/redisCache').client.pubsubStats;
-const subPerspective = require('../cache/redisCache').client.subPerspective;
+const subPerspectives = require('../cache/redisCache').client.subPerspectives;
 const subBot = require('../cache/redisCache').client.subBot;
 const featureToggles = require('feature-toggles');
 const rtUtils = require('./utils');
@@ -56,8 +56,9 @@ function trackStats(processName, key, obj) {
  * @param {Socket.io} io - Socket.io's Server API
  * @param {String} processName - Process name
  */
+const allSubscribers = subPerspectives.concat(subBot);
 module.exports = (io, processName) => {
-  [subBot, subPerspective].forEach((s) => {
+  allSubscribers.forEach((s) => {
     s.on('message', (channel, messageAsString) => {
       const obj = JSON.parse(messageAsString);
       const key = Object.keys(obj)[ZERO];

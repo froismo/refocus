@@ -58,8 +58,14 @@ if (featureToggles.isFeatureEnabled('enableRedisConnectionLogging')) {
   logger.info('Redis Retry Strategy', opts);
 }
 
-const subPerspective = redis.createClient(rconf.instanceUrl.pubsubPerspective, opts);
-subPerspective.subscribe(rconf.perspectiveChannelName);
+const subPerspectives = [];
+const pubPerspectives = [];
+rconf.instanceUrl.pubsubPerspectives.forEach((rp) => {
+  const s = redis.createClient(rp, opts);
+  s.subscribe(rconf.perspectiveChannelName);
+  subPerspectives.push(s);
+  pubPerspectives.push(redis.createClient(rp, opts));
+});
 
 const subBot = redis.createClient(rconf.instanceUrl.pubsubBots, opts);
 subBot.subscribe(rconf.botChannelName);
@@ -69,13 +75,13 @@ const client = {
   clock: redis.createClient(rconf.instanceUrl.clock, opts),
   heartbeat: redis.createClient(rconf.instanceUrl.heartbeat, opts),
   limiter: redis.createClient(rconf.instanceUrl.limiter, opts),
-  pubPerspective: redis.createClient(rconf.instanceUrl.pubsubPerspective, opts),
+  pubPerspectives,
   pubBot: redis.createClient(rconf.instanceUrl.pubsubBots, opts),
   pubsubStats: redis.createClient(rconf.instanceUrl.pubsubStats, opts),
   realtimeLogging: redis.createClient(rconf.instanceUrl.realtimeLogging,
    opts),
   sampleStore: redis.createClient(rconf.instanceUrl.sampleStore, opts),
-  subPerspective,
+  subPerspectives,
   subBot,
 };
 

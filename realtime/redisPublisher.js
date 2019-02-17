@@ -13,7 +13,7 @@
 const rtUtils = require('./utils');
 const config = require('../config');
 const client = require('../cache/redisCache').client;
-const pubPerspective = client.pubPerspective;
+const pubPerspectives = client.pubPerspectives;
 const perspectiveChannelName = config.redis.perspectiveChannelName;
 const sampleEvent = require('./constants').events.sample;
 const logger = require('winston');
@@ -21,6 +21,19 @@ const featureToggles = require('feature-toggles');
 const rcache = require('../cache/redisCache').client.pubsubStats;
 const pubKeys = require('./constants').pubsubStatsKeys.pub;
 const ONE = 1;
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 /**
  * Store pub stats in redis cache, tracking count and publish time by key. Note
@@ -112,8 +125,14 @@ function publishObject(inst, event, changedKeys, ignoreAttributes, opts) {
   const obj = {};
   obj[event] = inst.get ? inst.get() : inst;
 
-  // set pub client and channel to perspective unless there are overrides opts
-  let pubClient = pubPerspective;
+
+  /*
+   * Set pub client and channel to perspective unless there are overrides opts.
+   * There may be multiple publishers for perspectives to spread the load, so
+   * pick one at random.
+   */
+  const rand = getRandomInt(0, (pubPerspectives.length - 1));
+  let pubClient = pubPerspectives[rand];
   let channelName = perspectiveChannelName;
   if (opts) {
     obj[event].pubOpts = opts;
