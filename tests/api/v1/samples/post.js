@@ -197,6 +197,18 @@ describe('tests/api/v1/samples/post.js >', () => {
     .end(done);
   });
 
+  it('related links not provided, should set to empty array', (done) => {
+    delete sampleToPost.relatedLinks;
+    api.post(path)
+      .set('Authorization', token)
+      .send(sampleToPost)
+      .expect(constants.httpStatus.CREATED)
+      .expect((res) => {
+        expect(res.body.relatedLinks).to.eql([]);
+      })
+      .end(done);
+  });
+
   it('posting with readOnly field previousStatus should fail', (done) => {
     sampleToPost.previousStatus = 'Invalid';
     api.post(path)

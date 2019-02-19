@@ -246,6 +246,17 @@ describe('tests/api/v1/samples/patch.js >', () => {
         .end(done);
       });
 
+      it('related links not provided, should return empty array', (done) => {
+        api.patch(`${path}/${sampleName}`)
+          .set('Authorization', token)
+          .send({ value: '2' })
+          .expect(constants.httpStatus.OK)
+          .expect((res) => {
+            expect(res.body.relatedLinks).to.eql([]);
+          })
+          .end(done);
+      });
+
       it('patching with readOnly field id should fail', (done) => {
         api.patch(`${path}/${sampleName}`)
         .set('Authorization', token)
