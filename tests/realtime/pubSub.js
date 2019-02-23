@@ -65,17 +65,29 @@ describe('tests/realtime/pubsub.js >', () => {
       rtu.forceDelete(done);
     });
 
-    it('subscribers receive all published messages', (done) => {
+    it.only('subscribers receive all published messages', (done) => {
       const receivedMsgs = [];
-      subClients.forEach((subscriber) => {
-        subscriber.on('message', (ch, msg) => {
+      const subMsgCount = new Array(subClients.length);
+      for (let i = 0; i < subClients.length; i++) {
+        subMsgCount[i] = 0;
+        subClients[i].on('message', (ch, msg) => {
+          subMsgCount[i]++;
           receivedMsgs.push(msg);
         });
-      });
+      }
 
       function waitForMessages(time) {
         // check for messages when we get all of them and then return
         if (receivedMsgs.length === numberOfAspects) {
+          console.log("counts ###### > ",subMsgCount);
+          if (subClients.length === 1) {
+            expect(subMsgCount[0]).to.equal(numberOfAspects);
+          } else if (subClients.length > 1) {
+            subMsgCount.forEach((count) => {
+              expect(count).to.be.below(numberOfAspects);
+            });
+          }
+
           receivedMsgs.forEach((msg) => {
             const msgObj = JSON.parse(msg);
             expect(samplesNames).to.include(msgObj[event.upd].name);
