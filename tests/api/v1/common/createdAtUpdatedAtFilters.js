@@ -112,7 +112,7 @@ function runFilterTestsForModel([modelName, methods]) {
 
       it('basic', () => {
         // const filterString = '?name=___-aspect-10d';
-        const filterString = `?createdAt=-1d`;
+        const filterString = `?createdAt=-10d`;
         return getResources({ modelName, filterString })
           .then((res) => {
             console.log(res.body);

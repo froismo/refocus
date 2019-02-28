@@ -929,6 +929,12 @@ function setOwner(requestBody, req, existing) {
   }
 } // setOwner
 
+function endsWithAny(suffixes, string) {
+  return suffixes.some((suffix) => {
+    return string.endsWith(suffix);
+  });
+}
+
 // ----------------------------------------------------------------------------
 
 module.exports = {
@@ -998,5 +1004,7 @@ module.exports = {
   checkDuplicateRLinks,
 
   setOwner,
+
+  endsWithAny,
 
 }; // exports
