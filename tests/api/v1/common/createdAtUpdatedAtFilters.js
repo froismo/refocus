@@ -22,7 +22,14 @@ supertest.Test.prototype.then = function (resolve, reject) {
   return this.end().then(resolve).catch(reject);
 };
 
-const modelsToTest = ['aspects', 'subjects'];
+const modelsToTest = {
+  aspects: 'name',
+  subjects: 'name',
+  auditEvents: 'resourceName',
+  botActions: 'name',
+}
+
+// const modelsToTest = ['aspects', 'subjects', 'auditEvents'];
 
 let userToken;
 let clock;
@@ -41,7 +48,7 @@ describe('tests/api/v1/common/createdAtUpdatedAtFilters >', () => {
     .then(() => tu.forceDeleteAllRecords(tu.db.Profile))
       .then(() => tu.forceDeleteAllRecords(tu.db.Token)));
 
-  modelsToTest.forEach(runFilterTestsForModel);
+  Object.entries(modelsToTest).forEach(runFilterTestsForModel);
 });
 
 function getUtilForModel(modelName) {
@@ -55,7 +62,7 @@ function getResources({ modelName, filterString}) {
     .expect(constants.httpStatus.OK);
 }
 
-function createMultipleRecordsAtDifferentTimes(modelName, util) {
+function createMultipleRecordsAtDifferentTimes(modelName, nameAttr, util) {
   // create a record for (now) -10d, -10h, -10m, -10s
 
   const dateD = new Date();
@@ -63,22 +70,30 @@ function createMultipleRecordsAtDifferentTimes(modelName, util) {
   const dateM = new Date();
   const dateS = new Date();
   createdResources = [];
+  let overrideProp = {};
   clock = sinon.useFakeTimers(dateD.setDate(dateD.getDate() - 10));
-  return util.createBasic({ name: `${tu.namePrefix}-${modelName}-10d`})
+  overrideProp[nameAttr] = `${tu.namePrefix}-${modelName}-10d`;
+  return util.createBasic(overrideProp)
     .then((created10d) => {
       createdResources.push(created10d);
+      overrideProp = {};
+      overrideProp[nameAttr] = `${tu.namePrefix}-${modelName}-10h`;
       clock = sinon.useFakeTimers(dateH.setHours(dateH.getHours() - 10));
-      return util.createBasic({ name: `${tu.namePrefix}-${modelName}-10h`});
+      return util.createBasic(overrideProp);
     })
     .then((created10h) => {
       createdResources.push(created10h);
+      overrideProp = {};
+      overrideProp[nameAttr] = `${tu.namePrefix}-${modelName}-10m`;
       clock = sinon.useFakeTimers(dateM.setMinutes(dateM.getMinutes() - 10));
-      return util.createBasic({ name: `${tu.namePrefix}-${modelName}-10m`});
+      return util.createBasic(overrideProp);
     })
     .then((created10m) => {
       createdResources.push(created10m);
+      overrideProp = {};
+      overrideProp[nameAttr] = `${tu.namePrefix}-${modelName}-10s`;
       clock = sinon.useFakeTimers(dateS.setSeconds(dateS.getSeconds() - 10));
-      return util.createBasic({ name: `${tu.namePrefix}-${modelName}-10s`});
+      return util.createBasic(overrideProp);
     })
     .then((created10s) => {
       createdResources.push(created10s);
@@ -87,11 +102,11 @@ function createMultipleRecordsAtDifferentTimes(modelName, util) {
 
 }
 
-function runFilterTestsForModel(modelName) {
+function runFilterTestsForModel([modelName, nameAttr]) {
   const u = getUtilForModel(modelName);
 
   describe(`${modelName} createdAt >`, () => {
-    beforeEach(() => createMultipleRecordsAtDifferentTimes(modelName, u));
+    beforeEach(() => createMultipleRecordsAtDifferentTimes(modelName, nameAttr, u));
 
     afterEach(() => clock.restore());
     afterEach(u.forceDeleteAllRecords);
@@ -101,10 +116,10 @@ function runFilterTestsForModel(modelName) {
         const filterString = '?createdAt=-5h';
         return getResources({ modelName, filterString })
           .then((res) => {
-            // console.log(modelName, res.body);
+            console.log(modelName, res.body);
             expect(res.body.length).to.equal(2);
-            expect(res.body[0].name).equal(`___-${modelName}-10m`);
-            expect(res.body[1].name).equal(`___-${modelName}-10s`);
+            expect(res.body[0][nameAttr]).equal(`___-${modelName}-10m`);
+            expect(res.body[1][nameAttr]).equal(`___-${modelName}-10s`);
           });
       });
     });

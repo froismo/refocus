@@ -1305,6 +1305,13 @@ paths:
             Filter by auditEvent isError.
           required: false
           type: boolean
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when aspect was created.
+          required: false
+          type: string
       responses:
         200:
           description: >-

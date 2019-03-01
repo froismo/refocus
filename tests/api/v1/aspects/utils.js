@@ -64,7 +64,6 @@ module.exports = {
   },
 
   forceDeleteAllRecords(done) {
-    console.log("Deleting aspect records >>>");
     tu.forceDeleteAllRecords(tu.db.Aspect)
       .then(() => done())
       .catch(done);
