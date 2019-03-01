@@ -24,9 +24,9 @@ supertest.Test.prototype.then = function (resolve, reject) {
 
 const modelsToTest = {
   aspects: 'name',
-  subjects: 'name',
-  auditEvents: 'resourceName',
-  botActions: 'name',
+  // subjects: 'name',
+  // auditEvents: 'resourceName',
+  // botActions: 'name',
 }
 
 // const modelsToTest = ['aspects', 'subjects', 'auditEvents'];
@@ -57,6 +57,7 @@ function getUtilForModel(modelName) {
 
 function getResources({ modelName, filterString}) {
   const path = `/v1/${modelName}${filterString}`;
+  console.log("Querying....", path);
   return api.get(`${path}`)
     .set('Authorization', userToken)
     .expect(constants.httpStatus.OK);
