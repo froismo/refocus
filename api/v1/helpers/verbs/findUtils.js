@@ -151,6 +151,7 @@ function toWhereClause(val, props) {
  * @returns {Object} a Sequelize "where" object
  */
 function toSequelizeWhere(filter, props) {
+  console.log(filter, props.modelName);
   const where = {};
   const keys = Object.keys(filter);
 
@@ -202,6 +203,7 @@ function toSequelizeWhere(filter, props) {
         props.timePeriodFilters.includes(key) &&
         filterKeyValue.startsWith('-') &&
         u.endsWithAny(['d', 'h', 'm', 's'], filterKeyValue)) {
+        console.log("Inside toSequelizeWhere !!!!");
         const whereClause = {};
         whereClause[Op.gte] = new Date(Date.now() + ms(filterKeyValue));
         where[key] = whereClause;

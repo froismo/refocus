@@ -210,6 +210,7 @@ module.exports = {
   findSubjects(req, res, next) {
     validateTags(null, req.swagger.params);
     if (featureToggles.isFeatureEnabled('getSubjectFromCache')) {
+      console.log("From here 111");
       const resultObj = { reqStartTime: req.timestamp }; // for logging
       redisSubjectModel.findSubjects(req, res, resultObj)
       .then((response) => {
@@ -218,6 +219,7 @@ module.exports = {
       })
       .catch((err) => u.handleError(next, err, helper.modelName));
     } else {
+      console.log("From here 2222");
       return doFind(req, res, next, helper);
     }
   },

@@ -48,5 +48,11 @@ module.exports = {
     .catch(done);
   },
 
+  forceDeleteAllRecords(done) {
+    tu.forceDeleteAllRecords(tu.db.Subject)
+      .then(() => done())
+      .catch(done);
+  },
+
 };
 

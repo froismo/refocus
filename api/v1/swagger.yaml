@@ -9430,6 +9430,13 @@ paths:
              tags are not included in the result set.
           type: array
           required: false
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when aspect was created.
+          required: false
+          type: string
       responses:
         200:
           description: >-

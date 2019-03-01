@@ -22,37 +22,26 @@ supertest.Test.prototype.then = function (resolve, reject) {
   return this.end().then(resolve).catch(reject);
 };
 
-const modelsToTest = {
-  aspects: ['get'],
-  // subjects: ['get'],
-}
+const modelsToTest = ['aspects', 'subjects'];
 
-let mainUser;
 let userToken;
 let clock;
-const nowDate = new Date();
 let createdResources;
-
-function forceDeleteEverything(...models) {
-  Promise.all(models.map((modelName) => tu.db[modelName].destroy({
-    where: {},
-    force: true,
-  })));
-}
 
 describe('tests/api/v1/common/createdAtUpdatedAtFilters >', () => {
   before(() => {
     // clock = sinon.useFakeTimers();
     return tu.createUserAndToken('mainUser')
       .then(({ user, token }) => {
-        mainUser = user;
         userToken = token;
       });
   });
 
-  after(() => forceDeleteEverything('User', 'Profile', 'Token'));
+  after(() => tu.forceDeleteAllRecords(tu.db.User)
+    .then(() => tu.forceDeleteAllRecords(tu.db.Profile))
+      .then(() => tu.forceDeleteAllRecords(tu.db.Token)));
 
-  Object.entries(modelsToTest).forEach(runFilterTestsForModel);
+  modelsToTest.forEach(runFilterTestsForModel);
 });
 
 function getUtilForModel(modelName) {
@@ -61,7 +50,6 @@ function getUtilForModel(modelName) {
 
 function getResources({ modelName, filterString}) {
   const path = `/v1/${modelName}${filterString}`;
-  console.log('path', path);
   return api.get(`${path}`)
     .set('Authorization', userToken)
     .expect(constants.httpStatus.OK);
@@ -76,21 +64,21 @@ function createMultipleRecordsAtDifferentTimes(modelName, util) {
   const dateS = new Date();
   createdResources = [];
   clock = sinon.useFakeTimers(dateD.setDate(dateD.getDate() - 10));
-  return util.createBasic({ name: `${tu.namePrefix}-aspect-10d`})
+  return util.createBasic({ name: `${tu.namePrefix}-${modelName}-10d`})
     .then((created10d) => {
       createdResources.push(created10d);
       clock = sinon.useFakeTimers(dateH.setHours(dateH.getHours() - 10));
-      return util.createBasic({ name: `${tu.namePrefix}-aspect-10h`});
+      return util.createBasic({ name: `${tu.namePrefix}-${modelName}-10h`});
     })
     .then((created10h) => {
       createdResources.push(created10h);
       clock = sinon.useFakeTimers(dateM.setMinutes(dateM.getMinutes() - 10));
-      return util.createBasic({ name: `${tu.namePrefix}-aspect-10m`});
+      return util.createBasic({ name: `${tu.namePrefix}-${modelName}-10m`});
     })
     .then((created10m) => {
       createdResources.push(created10m);
       clock = sinon.useFakeTimers(dateS.setSeconds(dateS.getSeconds() - 10));
-      return util.createBasic({ name: `${tu.namePrefix}-aspect-10s`});
+      return util.createBasic({ name: `${tu.namePrefix}-${modelName}-10s`});
     })
     .then((created10s) => {
       createdResources.push(created10s);
@@ -99,26 +87,25 @@ function createMultipleRecordsAtDifferentTimes(modelName, util) {
 
 }
 
-function runFilterTestsForModel([modelName, methods]) {
+function runFilterTestsForModel(modelName) {
   const u = getUtilForModel(modelName);
 
   describe(`${modelName} createdAt >`, () => {
     beforeEach(() => createMultipleRecordsAtDifferentTimes(modelName, u));
 
     afterEach(() => clock.restore());
-    afterEach(() => forceDeleteEverything('Aspect'));
+    afterEach(u.forceDeleteAllRecords);
 
-    describe('GET, test createdAt for specific time >', () => {
-
-      it('basic', () => {
-        // const filterString = '?name=___-aspect-10d';
-        const filterString = `?createdAt=-10d`;
+    describe('GET, test createdAt for specific time period >', () => {
+      it('5 hour', () => {
+        const filterString = '?createdAt=-5h';
         return getResources({ modelName, filterString })
           .then((res) => {
-            console.log(res.body);
-            // expect(new Date(res.body[0].createdAt).getTime())
-            //   .to.equal(new Date(timeCreatedAt).getTime());
-          })
+            // console.log(modelName, res.body);
+            expect(res.body.length).to.equal(2);
+            expect(res.body[0].name).equal(`___-${modelName}-10m`);
+            expect(res.body[1].name).equal(`___-${modelName}-10s`);
+          });
       });
     });
   });

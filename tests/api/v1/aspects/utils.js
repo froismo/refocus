@@ -63,6 +63,13 @@ module.exports = {
     .catch(done);
   },
 
+  forceDeleteAllRecords(done) {
+    console.log("Deleting aspect records >>>");
+    tu.forceDeleteAllRecords(tu.db.Aspect)
+      .then(() => done())
+      .catch(done);
+  },
+
   populateRedis(done) {
     samstoinit.populate()
     .then(() => done())
