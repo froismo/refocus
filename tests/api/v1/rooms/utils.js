@@ -128,8 +128,8 @@ module.exports = {
   },
 
   doSetup(props={}) {
-    const { createdBy } = props;
-    return roomTypeUtil.createBasic({ createdBy })
+    const { createdBy, name } = props;
+    return roomTypeUtil.createBasic({ createdBy, name })
     .then((roomType) => {
       const createdIds = {
         type: roomType.id,
@@ -139,8 +139,8 @@ module.exports = {
   },
 
   createBasic(overrideProps={}) {
-    const { createdBy } = overrideProps;
-    return this.doSetup({ createdBy })
+    const { createdBy, name } = overrideProps;
+    return this.doSetup({ createdBy, name })
     .then(({ type }) => {
       Object.assign(overrideProps, { type });
       const toCreate = this.getBasic(overrideProps);
@@ -157,5 +157,12 @@ module.exports = {
     .then(() => tu.forceDelete(tu.db.RoomType, testStartTime))
     .then(() => done())
     .catch(done);
+  },
+
+  forceDeleteAllRecords(done) {
+    tu.forceDeleteAllRecords(tu.db.Room)
+      .then(() => tu.forceDeleteAllRecords(tu.db.RoomType))
+      .then(() => done())
+      .catch(done);
   },
 };

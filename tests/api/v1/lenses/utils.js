@@ -48,4 +48,11 @@ module.exports = {
     .then(() => done())
     .catch(done);
   },
+
+  forceDeleteAllRecords(done) {
+    tu.forceDeleteAllRecords(tu.db.Perspective)
+      .then(() => tu.forceDeleteAllRecords(tu.db.Lens))
+      .then(() => done())
+      .catch(done);
+  },
 };

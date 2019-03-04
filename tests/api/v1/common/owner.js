@@ -22,20 +22,20 @@ supertest.Test.prototype.then = function (resolve, reject) {
 };
 
 const modelsToTest = {
-  aspects: ['post', 'put', 'patch'],
-  botActions: ['post', 'patch'],
+  // aspects: ['post', 'put', 'patch'],
+  // botActions: ['post', 'patch'],
   botData: ['post', 'patch', 'upsert'],
-  bots: ['post', 'put', 'patch'],
-  collectorGroups: ['post', 'put', 'patch'],
-  collectors: ['start', 'patch'],
-  events: ['post', 'post bulk'],
-  generators: ['post', 'put', 'patch'],
-  generatorTemplates: ['post', 'patch'],
-  lenses: ['post', 'put', 'patch'],
-  perspectives: ['post', 'put', 'patch'],
-  rooms: ['post', 'patch'],
-  roomTypes: ['post', 'patch'],
-  subjects: ['post', 'put', 'patch'],
+  // bots: ['post', 'put', 'patch'],
+  // collectorGroups: ['post', 'put', 'patch'],
+  // collectors: ['start', 'patch'],
+  // events: ['post', 'post bulk'],
+  // generators: ['post', 'put', 'patch'],
+  // generatorTemplates: ['post', 'patch'],
+  // lenses: ['post', 'put', 'patch'],
+  // perspectives: ['post', 'put', 'patch'],
+  // rooms: ['post', 'patch'],
+  // roomTypes: ['post', 'patch'],
+  // subjects: ['post', 'put', 'patch'],
 };
 
 const skipByName = ['events', 'generatorTemplates'];

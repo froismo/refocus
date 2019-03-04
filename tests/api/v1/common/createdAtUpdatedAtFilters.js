@@ -21,12 +21,28 @@ supertest.Test.prototype.end = Promise.promisify(supertest.Test.prototype.end);
 supertest.Test.prototype.then = function (resolve, reject) {
   return this.end().then(resolve).catch(reject);
 };
+const BotUtil = require('../bots/utils');
+const RoomUtil = require('../rooms/utils');
 
 const modelsToTest = {
-  aspects: 'name',
+  // aspects: 'name',
   // subjects: 'name',
   // auditEvents: 'resourceName',
-  // botActions: 'name',
+  // botActions: 'name', // doesnt work
+  botData: 'name', // doesnt work
+  // bots: 'name',
+  // collectorGroups: 'name',
+  // collectors: 'name',
+  // events: 'name', // doesnt work
+  // generators: 'name',
+  // generatorTemplates: 'name',
+  // lenses: 'name',
+  // perspectives: 'name',
+  // profiles: 'name',
+  // rooms: 'name',
+  // roomTypes: 'name',
+  // tokens: 'name',
+  // users: 'name', // not working
 }
 
 // const modelsToTest = ['aspects', 'subjects', 'auditEvents'];
@@ -57,7 +73,6 @@ function getUtilForModel(modelName) {
 
 function getResources({ modelName, filterString}) {
   const path = `/v1/${modelName}${filterString}`;
-  console.log("Querying....", path);
   return api.get(`${path}`)
     .set('Authorization', userToken)
     .expect(constants.httpStatus.OK);
@@ -74,8 +89,26 @@ function createMultipleRecordsAtDifferentTimes(modelName, nameAttr, util) {
   let overrideProp = {};
   clock = sinon.useFakeTimers(dateD.setDate(dateD.getDate() - 10));
   overrideProp[nameAttr] = `${tu.namePrefix}-${modelName}-10d`;
+
+  return Promise.resolve(() => {
+    if (modelName == 'botData') {
+      return BotUtil.createBasic()
+        .then((bot) => {
+          overrideProp.botId  = bot.id;
+          return RoomUtil.createBasic();
+        })
+        .then((room) => {
+          overrideProp.roomId  = room.id;
+        });
+    }
+
+    return overrideProp;
+  })
+    .then
+
   return util.createBasic(overrideProp)
     .then((created10d) => {
+      // console.log(createdResources);
       createdResources.push(created10d);
       overrideProp = {};
       overrideProp[nameAttr] = `${tu.namePrefix}-${modelName}-10h`;
@@ -83,6 +116,7 @@ function createMultipleRecordsAtDifferentTimes(modelName, nameAttr, util) {
       return util.createBasic(overrideProp);
     })
     .then((created10h) => {
+      // console.log(createdResources);
       createdResources.push(created10h);
       overrideProp = {};
       overrideProp[nameAttr] = `${tu.namePrefix}-${modelName}-10m`;
@@ -90,6 +124,7 @@ function createMultipleRecordsAtDifferentTimes(modelName, nameAttr, util) {
       return util.createBasic(overrideProp);
     })
     .then((created10m) => {
+      // console.log(createdResources);
       createdResources.push(created10m);
       overrideProp = {};
       overrideProp[nameAttr] = `${tu.namePrefix}-${modelName}-10s`;
@@ -97,9 +132,13 @@ function createMultipleRecordsAtDifferentTimes(modelName, nameAttr, util) {
       return util.createBasic(overrideProp);
     })
     .then((created10s) => {
+      // console.log(createdResources);
       createdResources.push(created10s);
       return Promise.resolve();
-    });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
 
 }
 
@@ -119,9 +158,13 @@ function runFilterTestsForModel([modelName, nameAttr]) {
           .then((res) => {
             console.log(modelName, res.body);
             expect(res.body.length).to.equal(2);
-            expect(res.body[0][nameAttr]).equal(`___-${modelName}-10m`);
-            expect(res.body[1][nameAttr]).equal(`___-${modelName}-10s`);
+            const resultNames = res.body.map((obj) => obj.name);
+            expect(resultNames).includes(`___-${modelName}-10m`);
+            expect(resultNames).includes(`___-${modelName}-10s`);
           });
+          // .catch((err) => {
+          //   console.log(err);
+          // });
       });
     });
   });

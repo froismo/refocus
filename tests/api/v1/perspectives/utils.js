@@ -36,8 +36,8 @@ module.exports = {
   },
 
   doSetup(props={}) {
-    const { createdBy } = props;
-    return lensUtil.createBasic({ installedBy: createdBy })
+    const { createdBy, name } = props;
+    return lensUtil.createBasic({ installedBy: createdBy, name })
     .then((lens) => {
       const createdIds = {
         lensId: lens.id,
@@ -47,8 +47,8 @@ module.exports = {
   },
 
   createBasic(overrideProps={}) {
-    const { createdBy } = overrideProps;
-    return this.doSetup({ createdBy })
+    const { createdBy, name } = overrideProps;
+    return this.doSetup({ createdBy, name })
     .then(({ lensId }) => {
       Object.assign(overrideProps, { lensId });
       const toCreate = this.getBasic(overrideProps);
@@ -65,5 +65,12 @@ module.exports = {
     .then(() => tu.forceDelete(tu.db.Lens, testStartTime))
     .then(() => done())
     .catch(done);
+  },
+
+  forceDeleteAllRecords(done) {
+    tu.forceDeleteAllRecords(tu.db.Perspective)
+      .then(() => tu.forceDeleteAllRecords(tu.db.Lens))
+      .then(() => done())
+      .catch(done);
   },
 };

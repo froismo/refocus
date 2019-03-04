@@ -1309,7 +1309,7 @@ paths:
           name: createdAt
           in: query
           description: >-
-            Filter by time period when aspect was created.
+            Filter by time period when AuditEvent was created.
           required: false
           type: string
       responses:
@@ -1503,6 +1503,13 @@ paths:
           in: query
           required: false
           type: boolean
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when BotAction was created.
+          required: false
+          type: string
         -
           $ref: "#/parameters/limitParam"
         -
@@ -1949,6 +1956,13 @@ paths:
           name: name
           description: Filter botData by name
           in: query
+          required: false
+          type: string
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when BotData was created.
           required: false
           type: string
         -
@@ -2444,6 +2458,13 @@ paths:
           in: query
           required: false
           type: boolean
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when Bot was created.
+          required: false
+          type: string
         -
           $ref: "#/parameters/limitParam"
         -
@@ -3155,6 +3176,13 @@ paths:
             Filter by version; asterisk (*) wildcards ok.
           required: false
           type: string
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when collector was created.
+          required: false
+          type: string
       responses:
         200:
           description: Success, returns an array of zero or more Refocus collectors.
@@ -3862,6 +3890,13 @@ paths:
           required: false
           type: string
         -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when event was created.
+          required: false
+          type: string
+        -
           $ref: "#/parameters/limitParam"
         -
           $ref: "#/parameters/offsetParam"
@@ -4202,6 +4237,13 @@ paths:
              include result set.
           type: array
           required: false
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when generator was created.
+          required: false
+          type: string
       responses:
         200:
           description: >-
@@ -4873,6 +4915,13 @@ paths:
           type: boolean
           description: >-
             Filter by generatorTemplate isPublished (true|false)
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when GeneratorTemplate was created.
+          required: false
+          type: string
       responses:
         200:
           description: >-
@@ -5590,6 +5639,13 @@ paths:
           in: query
           required: false
           description: The version of the lens.
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when lenses was created.
+          required: false
+          type: string
       responses:
         200:
           description: >-
@@ -6208,6 +6264,13 @@ paths:
           in: query
           description: >-
             Filter by root subject; asterisk (*) wildcards ok.
+          required: false
+          type: string
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when perspectives was created.
           required: false
           type: string
       responses:
@@ -7540,6 +7603,13 @@ paths:
           required: false
           type: string
         -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when rooms were created.
+          required: false
+          type: string
+        -
           name: sort
           description: >
             Specify the sort order using a field name, e.g. '...?sort=name'. Prepend the
@@ -8050,6 +8120,13 @@ paths:
           name: type
           description: Filter roomType by roomTypeType
           in: query
+          required: false
+          type: string
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when roomTypes were created.
           required: false
           type: string
         -
@@ -9441,7 +9518,7 @@ paths:
           name: createdAt
           in: query
           description: >-
-            Filter by time period when aspect was created.
+            Filter by time period when subject was created.
           required: false
           type: string
       responses:
@@ -10926,6 +11003,13 @@ paths:
           required: true
           type: string
         -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when users were created.
+          required: false
+          type: string
+        -
           $ref: "#/parameters/UsersFieldsParam"
       responses:
         200:
@@ -11524,6 +11608,12 @@ paths:
           in: query
           description: >-
             Filter by description; asterisk (*) wildcards ok.
+          required: false
+          type: string
+        - name: createdAt
+          in: query
+          description: >-
+            Filter by time period when CollectorGroup was created.
           required: false
           type: string
       responses:

@@ -93,4 +93,11 @@ module.exports = {
     const toCreate = this.getBasic(overrideProps);
     return tu.db.GeneratorTemplate.create(toCreate);
   },
+
+  forceDeleteAllRecords(done) {
+    tu.forceDeleteAllRecords(tu.db.GeneratorTemplate)
+      .then(() => tu.forceDeleteAllRecords(tu.db.Collector))
+      .then(() => done())
+      .catch(done);
+  },
 };

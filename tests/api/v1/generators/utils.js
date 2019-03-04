@@ -91,10 +91,10 @@ module.exports = {
   },
 
   doSetup(props={}) {
-    const { createdBy } = props;
+    const { createdBy, name } = props;
     return Promise.all([
-      gtUtil.createBasic({ createdBy }),
-      aspectUtil.createBasic({ createdBy }),
+      gtUtil.createBasic({ createdBy, name }),
+      aspectUtil.createBasic({ createdBy, name }),
     ])
     .then(([sgt, aspect]) => {
         const createdIds = {
@@ -109,8 +109,8 @@ module.exports = {
   },
 
   createBasic(overrideProps={}) {
-    const { createdBy } = overrideProps;
-    return this.doSetup({ createdBy })
+    const { createdBy, name } = overrideProps;
+    return this.doSetup({ createdBy, name })
     .then(({ generatorTemplate, aspects }) => {
       Object.assign(overrideProps, { generatorTemplate, aspects });
       const toCreate = this.getBasic(overrideProps);
@@ -120,5 +120,15 @@ module.exports = {
 
   getDependencyProps() {
     return ['generatorTemplate', 'aspects'];
+  },
+
+  forceDeleteAllRecords(done) {
+    tu.forceDeleteAllRecords(tu.db.Generator)
+      .then(() => tu.forceDeleteAllRecords(tu.db.GeneratorTemplate))
+      .then(() => tu.forceDeleteAllRecords(tu.db.Collector))
+      .then(() => tu.forceDeleteAllRecords(tu.db.CollectorGroup))
+      .then(() => tu.forceDeleteAllRecords(tu.db.Aspect))
+      .then(() => done())
+      .catch(done);
   },
 };

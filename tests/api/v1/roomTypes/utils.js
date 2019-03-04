@@ -180,4 +180,10 @@ module.exports = {
     .then(() => done())
     .catch(done);
   },
+
+  forceDeleteAllRecords(done) {
+    tu.forceDeleteAllRecords(tu.db.RoomType)
+      .then(() => done())
+      .catch(done);
+  },
 };

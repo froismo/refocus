@@ -159,4 +159,10 @@ module.exports = {
     .then(() => done())
     .catch(done);
   },
+
+  forceDeleteAllRecords(done) {
+    tu.forceDeleteAllRecords(tu.db.Bot)
+      .then(() => done())
+      .catch(done);
+  },
 };
