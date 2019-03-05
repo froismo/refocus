@@ -31,6 +31,10 @@ const basic = {
 
 module.exports = {
   getBasic(overrideProps={}) {
+    if (!overrideProps.name) {
+      delete overrideProps.name;
+    }
+
     const defaultProps = JSON.parse(JSON.stringify(basic));
     return Object.assign(defaultProps, overrideProps);
   },

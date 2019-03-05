@@ -64,6 +64,10 @@ module.exports = {
   },
 
   getBasic(overrideProps={}) {
+    if (!overrideProps.name) {
+      delete overrideProps.name;
+    }
+
     const defaultProps = getAuditEventObject();
     return Object.assign(defaultProps, overrideProps);
   },

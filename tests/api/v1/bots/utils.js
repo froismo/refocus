@@ -145,6 +145,10 @@ module.exports = {
   },
 
   getBasic(overrideProps={}) {
+    if (!overrideProps.name) {
+      delete overrideProps.name;
+    }
+
     const defaultProps = JSON.parse(JSON.stringify(standard));
     return Object.assign(defaultProps, overrideProps);
   },

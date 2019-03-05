@@ -86,6 +86,10 @@ module.exports = {
   createGeneratorAspects,
 
   getBasic(overrideProps={}) {
+    if (!overrideProps.name) {
+      delete overrideProps.name;
+    }
+
     const defaultProps = JSON.parse(JSON.stringify(GENERATOR_SIMPLE));
     return Object.assign(defaultProps, overrideProps);
   },

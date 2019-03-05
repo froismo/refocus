@@ -184,6 +184,10 @@ function getCollectorToCreate() {
 
 module.exports = {
   getBasic(overrideProps={}) {
+    if (!overrideProps.name) {
+      delete overrideProps.name;
+    }
+
     const defaultProps = JSON.parse(JSON.stringify(collectorToCreate));
     return Object.assign(defaultProps, overrideProps);
   },
