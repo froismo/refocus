@@ -1507,7 +1507,7 @@ paths:
           name: createdAt
           in: query
           description: >-
-            Filter by time period when BotAction was created.
+            Filter by time period when BotActions were created.
           required: false
           type: string
         -
@@ -2329,6 +2329,12 @@ paths:
           $ref: "#/parameters/limitParam"
         -
           $ref: "#/parameters/offsetParam"
+        - name: createdAt
+          in: query
+          description: >-
+            Filter by time period when botData was created.
+          required: false
+          type: string
       responses:
         200:
           description: >-
@@ -5349,6 +5355,12 @@ paths:
           $ref: "#/parameters/limitParam"
         -
           $ref: "#/parameters/offsetParam"
+        - name: createdAt
+          in: query
+          description: >-
+            Filter by time period when globalConfigs was created.
+          required: false
+          type: string
       responses:
         200:
           description: >-
@@ -7005,6 +7017,12 @@ paths:
           $ref: "#/parameters/limitParam"
         -
           $ref: "#/parameters/offsetParam"
+        - name: createdAt
+          in: query
+          description: >-
+            Filter by time period when profiles were created.
+          required: false
+          type: string
       responses:
         200:
           description: >-
@@ -10884,6 +10902,13 @@ paths:
           in: query
           description: >-
             Filter by name; asterisk (*) wildcards ok.
+          required: false
+          type: string
+        -
+          name: createdAt
+          in: query
+          description: >-
+            Filter by time period when users were created.
           required: false
           type: string
       responses:

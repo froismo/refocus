@@ -41,6 +41,7 @@ module.exports = {
     if (!overrideProps.name) {
       delete overrideProps.name;
     }
+
     const defaultProps = JSON.parse(JSON.stringify(standard));
     return Object.assign(defaultProps, overrideProps);
   },
@@ -62,6 +63,12 @@ module.exports = {
 
   createBasic(overrideProps={}) {
     const { userId, name } = overrideProps;
+
+    if (overrideProps.botId && overrideProps.roomId) {
+      const toCreate = this.getBasic(overrideProps);
+      return tu.db.Event.create(toCreate);
+    }
+
     return this.doSetup({ userId, name })
     .then(({ botId, roomId }) => {
       Object.assign(overrideProps, { botId, roomId });
