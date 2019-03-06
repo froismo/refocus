@@ -20,6 +20,7 @@ const MINUS_ONE = -1;
 const RADIX = 10;
 const Op = require('sequelize').Op;
 const ms = require('ms');
+const apiErrors = require('../../apiErrors');
 
 /**
  * Escapes all percent literals so they're not treated as wildcards.
@@ -200,13 +201,15 @@ function toSequelizeWhere(filter, props) {
         const tagArr = filter[key];
         Object.assign(where, toWhereClause(tagArr, props));
       } else if (props.timePeriodFilters &&
-        props.timePeriodFilters.includes(key) &&
-        filterKeyValue.startsWith('-') &&
-        u.endsWithAny(['d', 'h', 'm', 's'], filterKeyValue)) {
-        // console.log("Inside toSequelizeWhere !!!!");
-        const whereClause = {};
-        whereClause[Op.gte] = new Date(Date.now() + ms(filterKeyValue));
-        where[key] = whereClause;
+        props.timePeriodFilters.includes(key)) {
+        const regex = /^-\d+[smdh]$/;
+        // if (regex.test(filterKeyValue)) {
+          const whereClause = {};
+          whereClause[Op.gte] = new Date(Date.now() + ms(filterKeyValue));
+          where[key] = whereClause;
+        // } else {
+        //   throw new apiErrors.InvalidQueryFilter();
+        // }
       } else {
         for (let j = ZERO; j < filter[key].length; j++) {
           const v = filter[key][j];
@@ -391,7 +394,7 @@ function options(params, props) {
 
   applyLimitIfUniqueField(opts, props);
 
-  console.log("Opts >>", opts);
+  // console.log('opts >>>', opts);
   return opts;
 } // options
 

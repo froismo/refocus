@@ -21,13 +21,12 @@ supertest.Test.prototype.end = Promise.promisify(supertest.Test.prototype.end);
 supertest.Test.prototype.then = function (resolve, reject) {
   return this.end().then(resolve).catch(reject);
 };
-const BotUtil = require('../bots/utils');
-const RoomUtil = require('../rooms/utils');
+const ms = require('ms');
 
 const modelsToTest = {
   // aspects: 'name',
   // auditEvents: 'resourceName',
-  botActions: 'name', // doesnt work
+  // botActions: 'name',
   // botData: 'name',
   // bots: 'name',
   // collectorGroups: 'name',
@@ -37,26 +36,21 @@ const modelsToTest = {
   // generatorTemplates: 'name',
   // lenses: 'name',
   // perspectives: 'name',
-  // rooms: 'name',
+  rooms: 'name',
   // roomTypes: 'name',
   // subjects: 'name',
   // users: 'name',
   // globalconfig: 'key',
   // profiles: 'name',
-  // tokens: 'name', // not working
 };
 
-
-// const modelsToTest = ['aspects', 'subjects', 'auditEvents'];
-
 let userToken;
-// let clock;
 let clock;
 let createdResources;
 
 describe('tests/api/v1/common/createdAtUpdatedAtFilters >', () => {
   beforeEach(() => {
-    clock = sinon.useFakeTimers()
+    clock = sinon.useFakeTimers();
     return tu.createUserAndToken('mainUser')
       .then(({ user, token }) => {
         userToken = token;
@@ -66,7 +60,7 @@ describe('tests/api/v1/common/createdAtUpdatedAtFilters >', () => {
   afterEach(() => clock.restore());
   afterEach(() => tu.forceDeleteAllRecords(tu.db.User)
     .then(() => tu.forceDeleteAllRecords(tu.db.Profile))
-      .then(() => tu.forceDeleteAllRecords(tu.db.Token)));
+    .then(() => tu.forceDeleteAllRecords(tu.db.Token)));
 
   Object.entries(modelsToTest).forEach(runFilterTestsForModel);
 });
@@ -75,7 +69,7 @@ function getUtilForModel(modelName) {
   return require(`../${modelName}/utils`);
 }
 
-function getResources({ modelName, filterString}) {
+function getResources({ modelName, filterString, expectedStatus }) {
   let path;
   if (modelName === 'botData' || modelName === 'botActions') {
     path = `/v1/${modelName}?botId=${createdResources[0].botId}` +
@@ -84,10 +78,9 @@ function getResources({ modelName, filterString}) {
     path = `/v1/${modelName}?${filterString}`;
   }
 
-  console.log('path >>>', path);
   return api.get(`${path}`)
     .set('Authorization', userToken)
-    .expect(constants.httpStatus.OK);
+    .expect(expectedStatus);
 }
 
 function createModel(modelName, overrideProps, nameAttr, name) {
@@ -104,94 +97,156 @@ function createModel(modelName, overrideProps, nameAttr, name) {
     });
 }
 
-// function createDependencies(modelName, createdBy) {
-//   createdBy = createdBy.id;
-//   const installedBy = createdBy;
-//   const userId = createdBy;
-//   const u = getUtilForModel(modelName);
-//   if (u.doSetup) {
-//     return u.doSetup({
-//       createdBy,
-//       installedBy,
-//       userId,
-//     })
-//       .then((createdIds) => {
-//         dependencyProps = createdIds;
-//       });
-//   }
-// }
-
-function createMultipleRecordsAtDifferentTimes(modelName, nameAttr, util) {
+function createMultipleRecordsAtDifferentTimes(modelName, nameAttr) {
   const overrideProps = {};
 
   // create a record for (now) -10d, -10h, -10m, -10s
   clock.restore();
-  const dateD = new Date();
-  const dateH = new Date();
-  const dateM = new Date();
-  const dateS = new Date();
+  const dateNow = Date.now();
   let resourceName;
   createdResources = [];
-  clock = sinon.useFakeTimers(dateD.setDate(dateD.getDate() - 10));
-  resourceName = `${tu.namePrefix}-${modelName}-10d`;
+  const dateMinus10s = dateNow - ms('10s');
+  clock = sinon.useFakeTimers(dateMinus10s);
+  resourceName = `${tu.namePrefix}-${modelName}-10s`;
   return createModel(modelName, overrideProps, nameAttr, resourceName)
-    .then((created10d) => {
-      createdResources.push(created10d);
-      clock = sinon.useFakeTimers(dateH.setHours(dateH.getHours() - 10));
-      resourceName = `${tu.namePrefix}-${modelName}-10h`;
-      return createModel(modelName, overrideProps, nameAttr, resourceName);
-    })
-    .then((created10h) => {
-      createdResources.push(created10h);
-      clock = sinon.useFakeTimers(dateM.setMinutes(dateM.getMinutes() - 10));
+    .then((created10s) => {
+      createdResources.push(created10s);
+      const dateMinus10m = dateNow - ms('10m');
+      clock.restore();
+      clock = sinon.useFakeTimers(dateMinus10m);
       resourceName = `${tu.namePrefix}-${modelName}-10m`;
       return createModel(modelName, overrideProps, nameAttr, resourceName);
     })
     .then((created10m) => {
       createdResources.push(created10m);
-      clock = sinon.useFakeTimers(dateS.setSeconds(dateS.getSeconds() - 10));
-      resourceName = `${tu.namePrefix}-${modelName}-10s`;
+      const dateMinus10h = dateNow - ms('10h');
+      clock.restore();
+      clock = sinon.useFakeTimers(dateMinus10h);
+      resourceName = `${tu.namePrefix}-${modelName}-10h`;
       return createModel(modelName, overrideProps, nameAttr, resourceName);
     })
-    .then((created10s) => {
-      createdResources.push(created10s);
+    .then((created10h) => {
+      createdResources.push(created10h);
+      const dateMinus10d = dateNow - ms('10d');
+      clock.restore();
+      clock = sinon.useFakeTimers(dateMinus10d);
+      resourceName = `${tu.namePrefix}-${modelName}-10d`;
+      return createModel(modelName, overrideProps, nameAttr, resourceName);
+    })
+    .then((created10d) => {
+      createdResources.push(created10d);
+      clock.restore();
       return Promise.resolve();
     });
-    // .catch((err) => {
-    //   console.log(err);
-    // });
 }
 
 function runFilterTestsForModel([modelName, nameAttr]) {
   const u = getUtilForModel(modelName);
 
   describe(`${modelName} createdAt >`, () => {
-    beforeEach(() => createMultipleRecordsAtDifferentTimes(modelName, nameAttr, u));
+    beforeEach(() => createMultipleRecordsAtDifferentTimes(
+        modelName, nameAttr, u
+      ));
 
-    afterEach(() => clock.restore());
     afterEach(u.forceDeleteAllRecords);
 
     describe('GET, test createdAt for specific time period >', () => {
-      it('5 hour', () => {
-        // console.log(modelName, createdResources);
-        const filterString = 'createdAt=-5h';
-        return getResources({ modelName, filterString })
+      it('5 seconds', () => {
+        const filterString = 'createdAt=-5s';
+        const expectedStatus = constants.httpStatus.OK;
+        return getResources({ modelName, filterString, expectedStatus })
           .then((res) => {
-            console.log(modelName, res.body);
-            // let expectedNumRes = 2;
-            // if (modelName === 'profiles') {
-            //   expectedNumRes = 4; // extra for default admin and main user
-            // }
+            expect(createdResources.length).equals(4);
+            expect(res.body.length).to.equal(0);
+          });
+      });
 
+      it('50 seconds', () => {
+        const filterString = 'createdAt=-50s';
+        const expectedStatus = constants.httpStatus.OK;
+        return getResources({ modelName, filterString, expectedStatus })
+          .then((res) => {
+            expect(createdResources.length).equals(4);
+            expect(res.body.length).to.equal(1);
+            expect(res.body[0][nameAttr]).to.equal(`___-${modelName}-10s`);
+          });
+      });
+
+      it('30 minutes', () => {
+        const filterString = 'createdAt=-30m';
+        const expectedStatus = constants.httpStatus.OK;
+        return getResources({ modelName, filterString, expectedStatus })
+          .then((res) => {
             expect(createdResources.length).equals(4);
             expect(res.body.length).to.equal(2);
             const resultNames = res.body.map((obj) => obj[nameAttr]);
             expect(resultNames).includes(`___-${modelName}-10m`);
             expect(resultNames).includes(`___-${modelName}-10s`);
-          })
-          // .catch((err) => {
-          //   console.log(err);
-          // });
+          });
+      });
+
+      it('5 hours', () => {
+        const filterString = 'createdAt=-5h';
+        const expectedStatus = constants.httpStatus.OK;
+        return getResources({ modelName, filterString, expectedStatus })
+          .then((res) => {
+            expect(createdResources.length).equals(4);
+            expect(res.body.length).to.equal(2);
+            const resultNames = res.body.map((obj) => obj[nameAttr]);
+            expect(resultNames).includes(`___-${modelName}-10m`);
+            expect(resultNames).includes(`___-${modelName}-10s`);
+          });
+      });
+
+      it('15 hours', () => {
+        const filterString = 'createdAt=-15h';
+        const expectedStatus = constants.httpStatus.OK;
+        return getResources({ modelName, filterString, expectedStatus })
+          .then((res) => {
+            expect(createdResources.length).equals(4);
+            expect(res.body.length).to.equal(3);
+            const resultNames = res.body.map((obj) => obj[nameAttr]);
+            expect(resultNames).includes(`___-${modelName}-10m`);
+            expect(resultNames).includes(`___-${modelName}-10s`);
+            expect(resultNames).includes(`___-${modelName}-10h`);
+          });
+      });
+
+      it('100 days', () => {
+        const filterString = 'createdAt=-100d';
+        const expectedStatus = constants.httpStatus.OK;
+        return getResources({ modelName, filterString, expectedStatus })
+          .then((res) => {
+            expect(createdResources.length).equals(4);
+            expect(res.body.length).to.equal(4);
+            const resultNames = res.body.map((obj) => obj[nameAttr]);
+            expect(resultNames).includes(`___-${modelName}-10m`);
+            expect(resultNames).includes(`___-${modelName}-10s`);
+            expect(resultNames).includes(`___-${modelName}-10h`);
+            expect(resultNames).includes(`___-${modelName}-10d`);
+          });
+      });
+
+      it.only('error, invalid query param value', () => {
+        const filterString = 'createdAt=xxxx';
+        const expectedStatus = constants.httpStatus.BAD_REQUEST;
+        return getResources({ modelName, filterString, expectedStatus })
+          .then((res) => {
+            expect(res.body.errors[0].type).to.equal('Error');
+            expect(res.body.errors[0].message).to.equal('Request validation ' +
+              'failed: Parameter (createdAt) does not match required pattern:' +
+              ' ^-\\d+[smdh]$');
+          });
+      });
+
+      it('12345678 seconds', () => {
+        const filterString = 'createdAt=-12345678s';
+        const expectedStatus = constants.httpStatus.OK;
+        return getResources({ modelName, filterString, expectedStatus })
+          .then((res) => {
+            expect(createdResources.length).equals(4);
+            expect(res.body.length).to.equal(4);
+          });
       });
     });
   });

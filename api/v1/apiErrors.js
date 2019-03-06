@@ -164,6 +164,17 @@ errors.create({
   'query parameter to return a list of all records with this name, e.g. ?name=',
 });
 
+errors.create({
+  scope: exports,
+  code: 11113,
+  status: 400,
+  name: 'InvalidQueryFilter',
+  parent: this.ValidationError,
+  fields: [],
+  defaultMessage: 'createdAt and updatedAt filters should match regex ' +
+    '/^-\\d+[smdh]$/',
+});
+
 // ----------------------------------------------------------------------------
 // Not Found
 // ----------------------------------------------------------------------------

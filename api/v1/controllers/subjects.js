@@ -219,7 +219,6 @@ module.exports = {
       })
       .catch((err) => u.handleError(next, err, helper.modelName));
     } else {
-      console.log("From here 2222");
       return doFind(req, res, next, helper);
     }
   },

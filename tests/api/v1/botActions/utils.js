@@ -110,12 +110,10 @@ module.exports = {
         .then((bot) => {
           const botActions = bot.actions;
           botActions.push({ name, parameters: standard.parameters });
-          console.log(botActions);
           return bot.update({ actions: botActions });
         })
       .then(() => {
         const toCreate = this.getBasic(overrideProps);
-        console.log('BotAction', toCreate);
         return tu.db.BotAction.create(toCreate);
       });
     }
@@ -135,7 +133,6 @@ module.exports = {
       .then(({ botId, roomId }) => {
         Object.assign(overrideProps, { botId, roomId });
         const toCreate = this.getBasic(overrideProps);
-        console.log(toCreate);
         return tu.db.BotAction.create(toCreate);
       });
   },

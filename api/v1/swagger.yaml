@@ -7627,6 +7627,7 @@ paths:
             Filter by time period when rooms were created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
         -
           name: sort
           description: >
@@ -9539,6 +9540,7 @@ paths:
             Filter by time period when subject was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: >-
