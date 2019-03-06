@@ -24,24 +24,24 @@ supertest.Test.prototype.then = function (resolve, reject) {
 const ms = require('ms');
 
 const modelsToTest = {
-  // aspects: 'name',
-  // auditEvents: 'resourceName',
-  // botActions: 'name',
-  // botData: 'name',
-  // bots: 'name',
-  // collectorGroups: 'name',
-  // collectors: 'name',
-  // events: 'log',
-  // generators: 'name',
-  // generatorTemplates: 'name',
-  // lenses: 'name',
-  // perspectives: 'name',
+  aspects: 'name',
+  auditEvents: 'resourceName',
+  botActions: 'name',
+  botData: 'name',
+  bots: 'name',
+  collectorGroups: 'name',
+  collectors: 'name',
+  events: 'log',
+  generators: 'name',
+  generatorTemplates: 'name',
+  lenses: 'name',
+  perspectives: 'name',
   rooms: 'name',
-  // roomTypes: 'name',
-  // subjects: 'name',
-  // users: 'name',
-  // globalconfig: 'key',
-  // profiles: 'name',
+  roomTypes: 'name',
+  subjects: 'name',
+  users: 'name',
+  globalconfig: 'key',
+  profiles: 'name',
 };
 
 let userToken;
@@ -227,7 +227,7 @@ function runFilterTestsForModel([modelName, nameAttr]) {
           });
       });
 
-      it.only('error, invalid query param value', () => {
+      it('error, invalid query param value', () => {
         const filterString = 'createdAt=xxxx';
         const expectedStatus = constants.httpStatus.BAD_REQUEST;
         return getResources({ modelName, filterString, expectedStatus })

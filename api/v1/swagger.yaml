@@ -252,9 +252,10 @@ paths:
           name: createdAt
           in: query
           description: >-
-            Filter by time period when aspect was created.
+            Filter by time period when aspects were created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: >-
@@ -1309,9 +1310,10 @@ paths:
           name: createdAt
           in: query
           description: >-
-            Filter by time period when AuditEvent was created.
+            Filter by time period when AuditEvents were created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: >-
@@ -1510,6 +1512,7 @@ paths:
             Filter by time period when BotActions were created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
         -
           $ref: "#/parameters/limitParam"
         -
@@ -1965,6 +1968,7 @@ paths:
             Filter by time period when BotData was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
         -
           $ref: "#/parameters/limitParam"
         -
@@ -2335,6 +2339,7 @@ paths:
             Filter by time period when botData was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: >-
@@ -2471,6 +2476,7 @@ paths:
             Filter by time period when Bot was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
         -
           $ref: "#/parameters/limitParam"
         -
@@ -3189,6 +3195,7 @@ paths:
             Filter by time period when collector was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: Success, returns an array of zero or more Refocus collectors.
@@ -3902,6 +3909,7 @@ paths:
             Filter by time period when event was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
         -
           $ref: "#/parameters/limitParam"
         -
@@ -4250,6 +4258,7 @@ paths:
             Filter by time period when generator was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: >-
@@ -4928,6 +4937,7 @@ paths:
             Filter by time period when GeneratorTemplate was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: >-
@@ -5361,6 +5371,7 @@ paths:
             Filter by time period when globalConfigs was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: >-
@@ -5658,6 +5669,7 @@ paths:
             Filter by time period when lenses was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: >-
@@ -6285,6 +6297,7 @@ paths:
             Filter by time period when perspectives was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: >-
@@ -7023,6 +7036,7 @@ paths:
             Filter by time period when profiles were created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: >-
@@ -8148,6 +8162,7 @@ paths:
             Filter by time period when roomTypes were created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
         -
           $ref: "#/parameters/limitParam"
         -
@@ -9537,7 +9552,7 @@ paths:
           name: createdAt
           in: query
           description: >-
-            Filter by time period when subject was created.
+            Filter by time period when subjects were created.
           required: false
           type: string
           pattern: '^-\d+[smdh]$'
@@ -10913,6 +10928,7 @@ paths:
             Filter by time period when users were created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: >-
@@ -11028,13 +11044,6 @@ paths:
           description: >-
             The id or name of the user to retrieve.
           required: true
-          type: string
-        -
-          name: createdAt
-          in: query
-          description: >-
-            Filter by time period when users were created.
-          required: false
           type: string
         -
           $ref: "#/parameters/UsersFieldsParam"
@@ -11643,6 +11652,7 @@ paths:
             Filter by time period when CollectorGroup was created.
           required: false
           type: string
+          pattern: '^-\d+[smdh]$'
       responses:
         200:
           description: Success, returns an array of zero or more Refocus collectorGroups.
